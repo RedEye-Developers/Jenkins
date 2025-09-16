@@ -1,7 +1,6 @@
 def call()
 {
-    sh 
-    """
+    sh """
     echo GitCread : ${evn.GITHUB_CRED}
     echo GitProject : ${evn.GITHUB_PROJECT_REPO}
     """
