@@ -8,5 +8,6 @@ def call(String repoName, String imageName, String imageTag){
         echo "Docker Image Pushed Successfully!"
     } catch (err) {
         echo "Docker Image Pushed Failed!" 
+        throw err;
     }
 }

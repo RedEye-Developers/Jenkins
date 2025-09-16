@@ -5,5 +5,6 @@ def call(String dockerFilePath, String imageName, String imageTag)
         echo "Docker Image Build Successfully!"
     } catch (err) {
         echo "Docker Image Build Failed!"
+        throw err;
     }
 }
