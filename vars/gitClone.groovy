@@ -1,4 +1,4 @@
 def call()
 {
-    sh "echo ${GITHUB_CRED}"
+    git credentialsId: GITHUB_CRED, url: GITHUB_PROJECT_REPO
 }
