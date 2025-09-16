@@ -1,4 +1,4 @@
 def call()
 {
-    sh "echo ${evn.GITHUB_CRED}"
+    sh "echo ${GITHUB_CRED}"
 }
