@@ -12,7 +12,7 @@ def dockerBuild(String svcName, String dockerImageName, String dockerVersionTag)
 def dockerPush(String svcName, String dockerImageName, String dockerVersionTag)
 {
     try {
-        sh "docker tag ${dockerImageName} ${DOCKER_REPO_NAME}/${convertSvcNameToDockerFullImageTag(svcName, dockerImageName, dockerVersionTag)}";
+        sh "docker tag ${PROJECT_NAME.toLowerCase()}.${dockerImageName} ${DOCKER_REPO_NAME}/${convertSvcNameToDockerFullImageTag(svcName, dockerImageName, dockerVersionTag)}";
         sh "docker push ${DOCKER_REPO_NAME}/${convertSvcNameToDockerFullImageTag(svcName, dockerImageName, dockerVersionTag)}";
         echo "Docker Image Pushed to Repo Successfully!";
     } catch(err) {
