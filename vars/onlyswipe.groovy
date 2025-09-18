@@ -1,7 +1,7 @@
-def dockerBuild(String svcName, String dockerVersionTag)
+def dockerBuild(String svcName, String dockerImageName String dockerVersionTag)
 {
     try {
-        sh "docker build -f ./${PROJECT_NAME}.${svcName}/Dockerfile -t ${convertSvcNameToDockerFullImageTag(svcName, dockerVersionTag)} .";
+        sh "docker build -f ./${PROJECT_NAME}.${svcName}/Dockerfile -t ${convertSvcNameToDockerFullImageTag(svcName, dockerImageName, dockerVersionTag)} .";
         echo "Docker Image Build Successfully Completed!";
     } catch(err) {
         echo "Docker Image Failed to Build!";
@@ -9,11 +9,11 @@ def dockerBuild(String svcName, String dockerVersionTag)
     }
 }
 
-def dockerPush(String svcName, String dockerVersionTag)
+def dockerPush(String svcName, String dockerImageName, String dockerVersionTag)
 {
     try {
-        sh "docker tag ${convertSvcNameToDockerImageTag(svcName)} ${DOCKER_REPO_NAME}/${convertSvcNameToDockerFullImageTag(svcName, dockerVersionTag)}";
-        sh "docker push ${DOCKER_REPO_NAME}/${convertSvcNameToDockerFullImageTag(svcName, dockerVersionTag)}";
+        sh "docker tag ${dockerImageName} ${DOCKER_REPO_NAME}/${convertSvcNameToDockerFullImageTag(svcName, dockerImageName, dockerVersionTag)}";
+        sh "docker push ${DOCKER_REPO_NAME}/${convertSvcNameToDockerFullImageTag(svcName, dockerImageName, dockerVersionTag)}";
         echo "Docker Image Pushed to Repo Successfully!";
     } catch(err) {
         echo "Docker Failed to Push the Image to Repo!";
@@ -21,22 +21,16 @@ def dockerPush(String svcName, String dockerVersionTag)
     }
 }
 
-def convertSvcNameToDockerImageTag(String svcName)
-{
-    return svcName.replace(".", "-").toLowerCase();
-}
-
-def convertSvcNameToDockerFullImageTag(String svcName, String dockerVersionTag)
-{
-    String projectName = PROJECT_NAME.toLowerCase();
-    return "${projectName}.${convertSvcNameToDockerImageTag(svcName)}:${dockerVersionTag}"
-}
-
-def deployHelmChart(String svcName, String environment)
+def deployHelmChart(String svcName, String dockerImageName String environment)
 {
     String rootFolderName = "${svcName.split("\\.")[1]}s"
     String folderName = svcName.split("\\.")[0];
     String deployEnv = environment.toLowerCase();
 
-    sh "helm upgrade -i -f .DevOps/${rootFolderName}/${folderName}/environments/values-${deployEnv}.yaml ${convertSvcNameToDockerImageTag(svcName)} . --wait"
+    sh "helm upgrade -i -f .DevOps/${rootFolderName}/${folderName}/environments/values-${deployEnv}.yaml ${dockerImageName} . --wait"
+}
+
+def convertSvcNameToDockerFullImageTag(String svcName, String dockerImageName, String dockerVersionTag)
+{
+    return "${PROJECT_NAME.toLowerCase()}.${dockerImageName}:${dockerVersionTag}"
 }
