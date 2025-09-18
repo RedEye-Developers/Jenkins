@@ -42,7 +42,7 @@ def deployHelmChart(String svcName, String dockerImageName, String environment)
             throw new IllegalArgumentException("Invalid ServiceType!")
     }
 
-    sh "helm upgrade -i -f ./DevOps/Helm/${rootFolderName}/${folderName}/environments/values-${deployEnv}.yaml ${dockerImageName} . --wait"
+    sh "helm upgrade -i -f ./DevOps/Helm/${rootFolderName}/${folderName}/environments/values-${deployEnv}.yaml ${dockerImageName} ./DevOps/Helm/${rootFolderName}/${folderName}/ --wait"
 }
 
 def convertSvcNameToDockerFullImageTag(String svcName, String dockerImageName, String dockerVersionTag)
