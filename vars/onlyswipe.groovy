@@ -27,7 +27,7 @@ def deployHelmChart(String svcName, String dockerImageName, String environment)
     String folderName = svcName.split("\\.")[0];
     String deployEnv = environment.toLowerCase();
 
-    String rootFolderName = switch(serviceType) {
+    def rootFolderName = switch(serviceType) {
         case "Api" -> "Apis"
         case "Grpc" -> "Grpcs"
         case "Consumer" -> "Kafka-Consumers"
