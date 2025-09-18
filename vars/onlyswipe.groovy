@@ -27,7 +27,7 @@ def deployHelmChart(String svcName, String dockerImageName, String environment)
     String folderName = svcName.split("\\.")[0];
     String deployEnv = environment.toLowerCase();
 
-    sh "helm upgrade -i -f .DevOps/${rootFolderName}/${folderName}/environments/values-${deployEnv}.yaml ${dockerImageName} . --wait"
+    sh "helm upgrade -i -f ./DevOps/${rootFolderName}/${folderName}/environments/values-${deployEnv}.yaml ${dockerImageName} . --wait"
 }
 
 def convertSvcNameToDockerFullImageTag(String svcName, String dockerImageName, String dockerVersionTag)
