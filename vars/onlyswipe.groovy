@@ -1,4 +1,4 @@
-def dockerBuild(String svcName, String dockerImageName String dockerVersionTag)
+def dockerBuild(String svcName, String dockerImageName, String dockerVersionTag)
 {
     try {
         sh "docker build -f ./${PROJECT_NAME}.${svcName}/Dockerfile -t ${convertSvcNameToDockerFullImageTag(svcName, dockerImageName, dockerVersionTag)} .";
@@ -21,7 +21,7 @@ def dockerPush(String svcName, String dockerImageName, String dockerVersionTag)
     }
 }
 
-def deployHelmChart(String svcName, String dockerImageName String environment)
+def deployHelmChart(String svcName, String dockerImageName, String environment)
 {
     String rootFolderName = "${svcName.split("\\.")[1]}s"
     String folderName = svcName.split("\\.")[0];
