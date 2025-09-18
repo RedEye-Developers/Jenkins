@@ -27,11 +27,19 @@ def deployHelmChart(String svcName, String dockerImageName, String environment)
     String folderName = svcName.split("\\.")[0];
     String deployEnv = environment.toLowerCase();
 
-    def rootFolderName = switch(serviceType) {
-        case "Api" -> "Apis"
-        case "Grpc" -> "Grpcs"
-        case "Consumer" -> "Kafka-Consumers"
-        default -> throw new IllegalArgumentException("Invalid ServiceType!")
+    def rootFolderName
+    switch(serviceType) {
+        case "Api":
+            rootFolderName = "Apis"
+            break
+        case "Grpc":
+            rootFolderName = "Grpcs"
+            break
+        case "Consumer":
+            rootFolderName = "Kafka-Consumers"
+            break
+        default:
+            throw new IllegalArgumentException("Invalid ServiceType!")
     }
 
     sh "helm upgrade -i -f ./DevOps/Helm/${rootFolderName}/${folderName}/environments/values-${deployEnv}.yaml ${dockerImageName} . --wait"
