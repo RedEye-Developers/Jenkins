@@ -1,4 +1,4 @@
-def call()
+def call(String branchName)
 {
-    git credentialsId: GITHUB_CRED, url: GITHUB_PROJECT_REPO
+    git credentialsId: GITHUB_CRED, branch: branchName, url: GITHUB_PROJECT_REPO
 }
