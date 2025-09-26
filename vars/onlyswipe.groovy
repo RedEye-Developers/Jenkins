@@ -49,3 +49,10 @@ def convertSvcNameToDockerFullImageTag(String svcName, String dockerImageName, S
 {
     return "${PROJECT_NAME.toLowerCase()}.${dockerImageName}:${dockerVersionTag}"
 }
+
+def deployInfraHelmChart(String folderName, String dockerImageName, String environment)
+{
+    String deployEnv = environment.toLowerCase();
+    
+    sh "helm upgrade -i -f ./DevOps/Helm/Infras/${folderName}/environments/values-${deployEnv}.yaml ${dockerImageName} ./DevOps/Helm/Infras/${folderName}/ --wait"
+}
